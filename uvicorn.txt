@@ -1,0 +1,10 @@
+[Unit]
+Description=Run uvicorn on startup
+
+[Service]
+Type=simple
+ExecStart=/home/epsumlabs/FastOCR/run.sh
+WorkingDirectory=/home/epsumlabs/FastOCR
+
+[Install]
+WantedBy=default.target
