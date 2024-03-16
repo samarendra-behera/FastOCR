@@ -9,16 +9,11 @@ app = FastAPI()
 
 
 def extract_text_from_pdf(file_path):
-    # try:
     images = convert_from_path(file_path)
-    images[0].save('output.png', 'PNG')
     text = ''
     for image in images:
-        print(text)
         text += pytesseract.image_to_string(image)
     return text
-    # except Exception as ex:
-    #     raise HTTPException(status_code=500, detail=str(ex))
 
 
 @app.get("/")
@@ -31,14 +26,9 @@ async def create_upload_file(file: UploadFile = File(...)):
 
     # Extract text from the PDF file
     path = os.path.join(os.getcwd(), file.filename)
-    print(path)
     text_data = extract_text_from_pdf(path)
-    print(text_data)
+    name = file.filename
     os.remove(file.filename)
 
-    return JSONResponse(content={'filename': file.filename, 'data': text_data}, status_code=200)
-    # try:
-    #     # Save the uploaded file to a temporary location
-        
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=str(e))
+    return JSONResponse(content={'filename': name, 'data': text_data}, status_code=200)
+    
