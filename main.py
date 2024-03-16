@@ -1,4 +1,5 @@
 import os
+import uvicorn
 import pytesseract
 from pdf2image import convert_from_path
 from fastapi import FastAPI, File, UploadFile, HTTPException
@@ -31,4 +32,8 @@ async def create_upload_file(file: UploadFile = File(...)):
     os.remove(file.filename)
 
     return JSONResponse(content={'filename': name, 'data': text_data}, status_code=200)
-    
+
+
+if __name__ == '__main__':
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
